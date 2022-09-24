@@ -29,7 +29,8 @@ If <pattern> is not specified, the content of the main selection is used
                     # expand to full line and yank
                     exec -save-regs '' '<semicolon>xHy'
                     # paste context followed by the selection
-                    exec -buffer *find-tmp* 'geo<esc>"cPP'
+                    # exec -buffer *find-tmp* 'geo<esc>"cPP'
+                    exec -buffer *find-tmp* 'geo<esc>P"cP'
                 }
             }
         }
@@ -40,7 +41,8 @@ If <pattern> is not specified, the content of the main selection is used
         set buffer find_current_line 0
         addhl buffer/ regex "%reg{/}" 0:black,yellow
         # final so that %reg{/} doesn't get highlighted in the header
-        addhl buffer/ regex "^([^\n]+):(\d+):(\d+):" 1:cyan,default+F 2:green,default+F 3:green,default+F
+        # addhl buffer/ regex "^([^\n]+):(\d+):(\d+):" 1:cyan,default+F 2:green,default+F 3:green,default+F
+        addhl buffer/ regex "^((?:\w:)?[^:\n]+):(\d+):(\d+)?" 1:cyan 2:green 3:green
         addhl buffer/ line '%opt{find_current_line}' default+b
         map buffer normal <ret> :find-jump<ret>
     }
@@ -141,3 +143,4 @@ def find-previous-match -docstring 'Jump to the previous find match' %{
     }
     try %{ eval -client %opt{toolsclient} %{ exec %opt{find_current_line}g } }
 }
+
